@@ -1,3 +1,4 @@
+vim.g.lazygit_floating_window_winblend = 0
 vim.opt.number = true
 vim.opt.cursorline = true
 vim.opt.relativenumber = true

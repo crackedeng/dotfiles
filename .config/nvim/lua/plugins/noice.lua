@@ -2,6 +2,11 @@ return {
 	{
 		"folke/noice.nvim",
 		event = "VeryLazy",
+		dependencies = {
+			"MunifTanjim/nui.nvim", -- << required for Noice
+			"rcarriga/nvim-notify", -- optional but nice
+			-- "nvim-treesitter/nvim-treesitter", -- optional, improves markdown rendering
+		},
 		opts = {
 			presets = {
 				-- This is the search bar or popup that shows up when you press /
@@ -49,7 +54,7 @@ return {
 				},
 				mini = {
 					-- timeout = 5000, -- timeout in milliseconds
-					timeout = 5000,
+					timeout = vim.g.neovim_mode == "skitty" and 2000 or 5000,
 					align = "center",
 					position = {
 						-- Centers messages top to bottom

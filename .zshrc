@@ -142,7 +142,7 @@ alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ai="claude"
 alias nvimconfig="cd ~/.config/nvim && nvim ."
 alias tmuxconfig="nvim ~/.tmux.conf"
-alias config='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias dot='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 # alias python3="/opt/homebrew/bin/python3"
 
 # source $HOMEBREW_PREFIX/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh

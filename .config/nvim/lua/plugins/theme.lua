@@ -9,7 +9,6 @@ return {
 				cyan = "#89dceb",
 				green = "#a6e3a1",
 				orange = "#fab387",
-				violet = "#cba6f7",
 				magenta = "#f38ba8",
 				blue = "#74c7ec",
 				red = "#f38ba8",
@@ -59,25 +58,9 @@ return {
 				extensions = { "nvim-tree", "quickfix", "fugitive" },
 			})
 
-		-- Force transparency on statusline highlights
+			-- Force transparency on statusline highlights
 			vim.api.nvim_set_hl(0, "StatusLine", { bg = "none", ctermbg = "none" })
 			vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "none", ctermbg = "none" })
-		end,
-	},
-	{
-		"slugbyte/lackluster.nvim",
-		lazy = false,
-		priority = 1000,
-		config = function()
-			local lackluster = require("lackluster")
-			lackluster.setup({
-				disable_plugin = {},
-				tweak_background = {
-					normal = "none",
-				},
-			})
-			-- 	-- vim.cmd.colorscheme("lackluster")
-			-- 	-- vim.cmd.colorscheme("lackluster-mint")
 		end,
 	},
 	-- NOTE: Rose pine
@@ -118,6 +101,19 @@ return {
 			-- when quit and reopening nvim
 			-- vim.cmd("colorscheme rose-pine")
 			-- vim.cmd.colorscheme("rose-pine-main") -- my favorite
+		end,
+	},
+	{
+		"datsfilipe/vesper.nvim",
+		opts = {
+			transparent = true, -- Boolean: Sets the background to transparent
+			italics = {},
+			overrides = {}, -- A dictionary of group names, can be a function returning a dictionary or a table.
+			palette_overrides = {},
+		},
+		config = function(_, opts)
+			require("vesper").setup(opts)
+			vim.cmd.colorscheme("vesper")
 		end,
 	},
 }

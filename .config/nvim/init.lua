@@ -13,24 +13,45 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- Make float backgrounds transparent (and its border)
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
-
 -- When the Claude terminal opens, set winblend & winhighlight on that window
-vim.api.nvim_create_autocmd({ "TermOpen", "BufWinEnter" }, {
+-- Make Claude terminal transparent immediately on first open
+local function set_claude_term_transparency(win)
+	-- Blend the float (0 = opaque, 100 = invisible)
+	pcall(vim.api.nvim_set_option_value, "winblend", 20, { win = win })
+
+	-- Use floating window highlight groups for this window
+	-- IMPORTANT: map Normal/NormalNC -> NormalFloat so bg=NONE carries over
+	pcall(
+		vim.api.nvim_set_option_value,
+		"winhighlight",
+		"Normal:NormalFloat,NormalNC:NormalFloat,FloatBorder:FloatBorder",
+		{ win = win }
+	)
+end
+
+-- Mark Claude terminals when their buffers are created
+vim.api.nvim_create_autocmd("TermOpen", {
 	pattern = "term://*claude*",
 	callback = function(ev)
-		-- use the current window that showed the terminal
+		vim.b[ev.buf].is_claude_term = true
+	end,
+})
+
+-- When the window actually shows that buffer, style it *before* first visible frame
+vim.api.nvim_create_autocmd({ "WinNew", "WinEnter", "BufWinEnter" }, {
+	callback = function()
+		local buf = vim.api.nvim_get_current_buf()
+		if not vim.b[buf].is_claude_term then
+			return
+		end
+
 		local win = vim.api.nvim_get_current_win()
-
-		-- Blend the floating window (0 = opaque, 100 = invisible)
-		pcall(vim.api.nvim_set_option_value, "winblend", 20, { win = win })
-
-		-- Make sure the window actually uses the float highlight groups
-		pcall(
-			vim.api.nvim_set_option_value,
-			"winhighlight",
-			"NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-			{ win = win }
-		)
+		-- Tiny defer ensures the window is fully initialized but still before user sees it
+		vim.defer_fn(function()
+			set_claude_term_transparency(win)
+			-- Optional: force a redraw to avoid any single-frame flash
+			vim.cmd("redraw")
+		end, 10)
 	end,
 })
 

@@ -50,7 +50,7 @@ return {
 
 				-- Fuzzy find all the symbols in your current document.
 				--  Symbols are things like variables, functions, types, etc.
-				map("gO", snacks_picker.lsp_symbols, "Open Document Symbols")
+				map("go", snacks_picker.lsp_symbols, "Open Document Symbols")
 
 				-- Fuzzy find all the symbols in your current workspace.
 				--  Similar to document symbols, except searches over your entire project.
@@ -167,13 +167,6 @@ return {
 			client.server_capabilities.hoverProvider = true
 		end
 
-		local on_attach_ruff = function(client, _)
-			if client.name == "ruff" then
-				-- disable hover in favor of pyright
-				client.server_capabilities.hoverProvider = false
-			end
-		end
-
 		-- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 		-- 	border = "rounded",
 		-- 	width = 70,
@@ -204,19 +197,20 @@ return {
 
 		local capabilities = require("blink.cmp").get_lsp_capabilities()
 		local servers = {
-			-- pyright = {
-			-- 	settings = {
-			-- 		pyright = {
-			-- 			-- Using Ruff's import organizer
-			-- 			disableOrganizeImports = true,
-			-- 		},
-			-- 		python = {
-			-- 			analysis = {
-			-- 				ignore = { "*" },
-			-- 			},
-			-- 		},
-			-- 	},
-			-- },
+			pyright = {
+				on_attach = on_attach_pyright,
+				settings = {
+					pyright = {
+						-- Using Ruff's import organizer
+						disableOrganizeImports = true,
+					},
+					python = {
+						analysis = {
+							ignore = { "*" },
+						},
+					},
+				},
+			},
 			lua_ls = {
 				-- cmd = { ... },
 				-- filetypes = { ... },
@@ -231,29 +225,10 @@ return {
 					},
 				},
 			},
-
-			ruff = {
-				on_attach = on_attach_ruff,
-				init_options = {
-					settings = {
-						args = {
-							"--ignore",
-							"F821",
-							"--ignore",
-							"E402",
-							"--ignore",
-							"E722",
-							"--ignore",
-							"E712",
-						},
-					},
-				},
-			},
 		}
 		local ensure_installed = vim.tbl_keys(servers or {})
 		vim.list_extend(ensure_installed, {
 			"stylua",
-			"ruff",
 			"typescript-language-server",
 			"eslint-lsp",
 		})

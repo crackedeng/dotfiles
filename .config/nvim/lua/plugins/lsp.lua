@@ -231,6 +231,9 @@ return {
 			"stylua",
 			"typescript-language-server",
 			"eslint-lsp",
+			"tailwindcss-language-server",
+			"biome",
+			"emmet_ls",
 		})
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 

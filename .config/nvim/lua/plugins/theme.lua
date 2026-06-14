@@ -106,7 +106,7 @@ return {
 	{
 		"datsfilipe/vesper.nvim",
 		opts = {
-			transparent = true, -- Boolean: Sets the background to transparent
+			transparent = false, -- Boolean: Sets the background to transparent
 			italics = {},
 			overrides = {}, -- A dictionary of group names, can be a function returning a dictionary or a table.
 			palette_overrides = {},

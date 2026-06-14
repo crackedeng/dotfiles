@@ -33,6 +33,7 @@ return {
 		},
 		explorer = {
 			enabled = true,
+      auto_close=true
 		},
 		picker = {
 			enabled = true,

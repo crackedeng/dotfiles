@@ -16,8 +16,6 @@ rtp:prepend(lazypath)
 require("lazy").setup({
   spec = {
     -- plugin specs belong here
-    "NMAC427/guess-indent.nvim",
-
     {
       "folke/lazydev.nvim",
       ft = "lua",

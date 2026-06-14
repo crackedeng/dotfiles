@@ -1,12 +1,4 @@
 return {
-	{
-		"rest-nvim/rest.nvim",
-		build = false,
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		config = function()
-			vim.keymap.set("n", "<leader>rr", "<cmd>Rest run<cr>", { desc = "Run HTTP request" })
-		end,
-	},
 	{ "typicode/bg.nvim", lazy = false },
 	{ "danilamihailov/beacon.nvim" },
 	{
